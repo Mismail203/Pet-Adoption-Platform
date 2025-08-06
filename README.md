@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+## Libraries
+npm install recharts
+npm install react-router-dom
+npm install lucide-react
+
 In the project directory, you can run:
 
 ### `npm start`
