@@ -1,3 +1,20 @@
+# To Run the Project
+git clone https://github.com/Mismail203/Pet-Adoption-Platform.git
+
+Then:
+npm install
+npm start
+
+# Work and Push Changes
+git add .
+git commit -m "Describe changes here"
+git push origin main
+
+# Pull Latest Changes Before Starting Work
+#Before make changes, U should always run:
+git pull origin main
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
