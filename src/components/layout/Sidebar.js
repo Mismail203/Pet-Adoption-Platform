@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
@@ -9,7 +9,8 @@ import {
   Menu,
   X,
   PawPrint,
-  Syringe
+  Syringe,
+  LogOut
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -17,11 +18,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
 
   const menuItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/' },
+    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/dashboard' },
     { id: 'users', icon: Users, label: 'Users', path: '/users' },
     { id: 'pets', icon: PawPrint, label: 'Pets', path: '/pets' },
     { id: 'treatments', icon: Syringe, label: 'Treatments', path: '/treatments' },
-    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' }
+    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
+    { id: 'logout', icon: LogOut, label: 'Logout', path: '/logout' }
   ];
 
   return (
@@ -52,12 +54,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 key={item.id}
                 to={item.path}
                 className={`nav-item ${isActive ? 'active' : ''}`}
-                onClick={() => {
-                  // Close sidebar on mobile after navigation
-                  if (window.innerWidth < 768) {
-                    toggleSidebar();
-                  }
-                }}
+                onClick={toggleSidebar}
               >
                 <Icon size={20} />
                 <span>{item.label}</span>

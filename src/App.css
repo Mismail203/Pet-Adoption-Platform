@@ -431,13 +431,12 @@
     }
   }
 
-  /* Add these mobile-specific styles at the end of your existing App.css */
 
 @media (max-width: 768px) {
     /* Main layout adjustments */
     .content-wrapper {
       flex-direction: column;
-      margin-top: 60px; /* Smaller header on mobile */
+      margin-top: 0px; /* Smaller header on mobile */
     }
   
     .sidebar {

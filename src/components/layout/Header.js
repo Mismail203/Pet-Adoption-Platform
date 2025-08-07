@@ -27,9 +27,9 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
     <header className="header">
       <div className="header-left">
         {/* Mobile menu button */}
-        <button className="mobile-menu-btn" onClick={toggleSidebar}>
+        {/* <button className="mobile-menu-btn" onClick={toggleSidebar}>
           <Menu size={20} />
-        </button>
+        </button> */}
         
         {/* Page title */}
         <h1 className="page-title">{pageTitle}</h1>
