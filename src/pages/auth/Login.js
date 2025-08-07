@@ -43,6 +43,8 @@ const Login = ({ onLogin }) => {  // Destructure onLogin from props
           />
           <h1>PetAdopt Admin</h1>
           <p>Manage adoptions, pets, and users</p>
+          <h5>admin@petadopt.com</h5>
+          <h5>Admin@123</h5>
         </div>
 
         {/* Login Form */}
