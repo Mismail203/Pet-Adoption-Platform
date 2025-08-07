@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Menu, 
   Search, 
@@ -10,10 +10,19 @@ import {
 } from 'lucide-react';
 import './Header.css';
 
-const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
+const Header = ({ toggleSidebar, pageTitle = "Dashboard", onLogout }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [userData, setUserData] = useState(null);
+
+  // Load user data from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userData');
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
 
   const notifications = [
     { id: 1, message: "New user registered", time: "2 mins ago", unread: true },
@@ -23,20 +32,25 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
 
   const unreadCount = notifications.filter(n => n.unread).length;
 
+  const handleLogout = () => {
+    if (typeof onLogout === 'function') {
+      onLogout();
+    }
+  };
+
+  // Get initials from name
+  const getInitials = (name) => {
+    if (!name) return '';
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  };
+
   return (
     <header className="header">
       <div className="header-left">
-        {/* Mobile menu button */}
-        {/* <button className="mobile-menu-btn" onClick={toggleSidebar}>
-          <Menu size={20} />
-        </button> */}
-        
-        {/* Page title */}
         <h1 className="page-title">{pageTitle}</h1>
       </div>
 
       <div className="header-right">
-        {/* Search bar */}
         <div className="search-container">
           <Search className="search-icon" size={18} />
           <input
@@ -48,7 +62,6 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
           />
         </div>
 
-        {/* Notifications */}
         <div className="notification-container">
           <button 
             className="notification-btn"
@@ -60,7 +73,6 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
             )}
           </button>
 
-          {/* Notifications dropdown */}
           {showNotifications && (
             <div className="notifications-dropdown">
               <div className="notifications-header">
@@ -85,28 +97,38 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
           )}
         </div>
 
-        {/* User menu */}
         <div className="user-menu-container">
           <button 
             className="user-menu-btn"
             onClick={() => setShowUserMenu(!showUserMenu)}
           >
-            <div className="user-avatar">JD</div>
+            {userData?.image ? (
+              <img src={userData.image} alt="User" className="user-avatar" />
+            ) : (
+              <div className="user-avatar">
+                {getInitials(userData?.name || '')}
+              </div>
+            )}
             <div className="user-info">
-              <span className="user-name">John Doe</span>
-              <span className="user-role">Admin</span>
+              <span className="user-name">{userData?.name || 'User'}</span>
+              {/* <span className="user-role">Admin</span> */}
             </div>
             <ChevronDown size={16} />
           </button>
 
-          {/* User dropdown */}
           {showUserMenu && (
             <div className="user-dropdown">
               <div className="user-dropdown-header">
-                <div className="user-avatar-large">JD</div>
+                {userData?.image ? (
+                  <img src={userData.image} alt="User" className="user-avatar-large" />
+                ) : (
+                  <div className="user-avatar-large">
+                    {getInitials(userData?.name || '')}
+                  </div>
+                )}
                 <div>
-                  <div className="dropdown-user-name">John Doe</div>
-                  <div className="dropdown-user-email">john@example.com</div>
+                  <div className="dropdown-user-name">{userData?.name || 'User'}</div>
+                  <div className="dropdown-user-email">{userData?.email || ''}</div>
                 </div>
               </div>
               <div className="user-dropdown-menu">
@@ -119,7 +141,7 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
                   <span>Settings</span>
                 </button>
                 <hr className="dropdown-divider" />
-                <button className="dropdown-item logout">
+                <button className="dropdown-item logout" onClick={handleLogout}>
                   <LogOut size={16} />
                   <span>Logout</span>
                 </button>
@@ -129,7 +151,6 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard" }) => {
         </div>
       </div>
 
-      {/* Click outside to close dropdowns */}
       {(showNotifications || showUserMenu) && (
         <div 
           className="dropdown-overlay" 

@@ -7,30 +7,30 @@
     --text-light: #6b7280;
     --border: #e5e7eb;
     --bg: #f9fafb;
-  }
-  
-  * {
+}
+
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
-  
-  body {
+}
+
+body {
     background-color: var(--bg);
     font-family: 'Segoe UI', sans-serif;
-  }
-  
-  /* Login Container */
-  .login-container {
+}
+
+/* Login Container */
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 1rem;
     background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-  }
-  
-  .login-card {
+}
+
+.login-card {
     background: white;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -38,66 +38,67 @@
     max-width: 420px;
     padding: 2.5rem;
     text-align: center;
-  }
-  
-  /* Logo Section */
-  .logo-section {
+}
+
+/* Logo Section */
+.logo-section {
     margin-bottom: 2rem;
-  }
-  
-  .logo-section .logo {
-    width: 50px;
-    height: 50px;
+}
+
+.logo-section .logo {
+    width: 70px;
+    height: 70px;
     margin-bottom: 1rem;
     border-radius: 8px;
-  }
-  
-  .logo-section h1 {
+    display: inline;
+}
+
+.logo-section h1 {
     font-size: 1.5rem;
     color: var(--text);
     margin-bottom: 0.5rem;
-  }
-  
-  .logo-section p {
+}
+
+.logo-section p {
     color: var(--text-light);
     font-size: 0.875rem;
-  }
-  
-  /* Form Styles */
-  form {
+}
+
+/* Form Styles */
+form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-  }
-  
-  .input-group {
+}
+
+.input-group {
     position: relative;
-  }
-  
-  .input-icon {
+}
+
+.input-icon {
     position: absolute;
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-light);
-  }
-  
-  .input-group input {
+}
+
+.input-group input {
     width: 100%;
     padding: 0.875rem 1rem 0.875rem 2.75rem;
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 0.9375rem;
     transition: all 0.2s;
-  }
-  
-  .input-group input:focus {
+}
+
+.input-group input:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-  
-  .toggle-password {
+}
+
+.toggle-password {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -106,24 +107,24 @@
     border: none;
     cursor: pointer;
     color: var(--text-light);
-  }
-  
-  /* Button & Actions */
-  .forgot-password {
+}
+
+/* Button & Actions */
+.forgot-password {
     text-align: right;
-  }
-  
-  .forgot-password a {
+}
+
+.forgot-password a {
     color: var(--primary);
     font-size: 0.8125rem;
     text-decoration: none;
-  }
-  
-  .forgot-password a:hover {
+}
+
+.forgot-password a:hover {
     text-decoration: underline;
-  }
-  
-  .login-button {
+}
+
+.login-button {
     background-color: var(--primary);
     color: white;
     border: none;
@@ -137,38 +138,43 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-  }
-  
-  .login-button:hover {
+}
+
+.login-button:hover {
     background-color: var(--primary-dark);
-  }
-  
-  .login-button:disabled {
+}
+
+.login-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-  }
-  
-  .spinner {
+}
+
+.spinner {
     animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  /* Error Message */
-  .error-message {
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error Message */
+.error-message {
     color: var(--error);
     background-color: #fef2f2;
     padding: 0.75rem;
     border-radius: 6px;
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
-  }
-  
-  /* Security Tips */
-  .security-tips {
+}
+
+/* Security Tips */
+.security-tips {
     margin-top: 1.5rem;
     font-size: 0.8125rem;
     color: var(--text-light);
@@ -176,23 +182,23 @@
     padding: 0.75rem;
     background-color: #f8fafc;
     border-radius: 6px;
-  }
-  
-  .security-tips p {
+}
+
+.security-tips p {
     margin-bottom: 0.25rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-  
-  /* Responsive */
-  @media (max-width: 480px) {
-    .login-card {
-      padding: 1.75rem;
-    }
-  }
+}
 
-  /* Add to your Login.css */
+/* Responsive */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1.75rem;
+    }
+}
+
+/* Add to your Login.css */
 .logout-container {
     display: flex;
     flex-direction: column;
@@ -200,12 +206,44 @@
     justify-content: center;
     height: 100vh;
     gap: 1rem;
-  }
-  
-  .logout-container .spinner {
+}
+
+.logout-container .spinner {
     animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-message {
+    color: #ef0056;
+    padding: 0px;
+    border-radius: 0px;
+    margin-bottom: -15px;
+}
+
+.login-button {
+    background-color: #ef0056;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #d1004b;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

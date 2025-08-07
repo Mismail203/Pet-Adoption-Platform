@@ -2,21 +2,22 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from 'lucide-react';
 
-const Logout = () => {
+const Logout = ({ onLogout }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear authentication tokens/user data
+    // Clear authentication data
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
     
-    // Redirect to login after 1 second (for visual feedback)
-    const timer = setTimeout(() => {
-      navigate('/login');
-    }, 1000);
+    // Call parent logout handler
+    if (typeof onLogout === 'function') {
+      onLogout();
+    }
 
-    return () => clearTimeout(timer);
-  }, [navigate]);
+    // Redirect to login immediately
+    navigate('/login', { replace: true });
+  }, [navigate, onLogout]);
 
   return (
     <div className="logout-container">

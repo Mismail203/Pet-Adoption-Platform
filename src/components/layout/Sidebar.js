@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
@@ -16,6 +16,15 @@ import './Sidebar.css';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
+  const [userData, setUserData] = useState(null);
+
+  // Load user data from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userData');
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
 
   const menuItems = [
     { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/dashboard' },
@@ -26,25 +35,29 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { id: 'logout', icon: LogOut, label: 'Logout', path: '/logout' }
   ];
 
+  // Get initials from name
+  const getInitials = (name) => {
+    if (!name) return '';
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  };
+
   return (
     <>
-      {/* Mobile overlay */}
       {isOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
       
-      {/* Sidebar */}
       <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
-        {/* Logo/Header */}
         <div className="sidebar-header">
           <div className="logo">
-            <div className="logo-icon">A</div>
-            <span className="logo-text">Admin Pro</span>
+            <div className="logo-icon">
+              <PawPrint size={24} />
+            </div>
+            <span className="logo-text">PetAdopt Admin</span>
           </div>
           <button className="close-btn" onClick={toggleSidebar}>
             <X size={20} />
           </button>
         </div>
 
-        {/* Navigation Menu */}
         <nav className="sidebar-nav">
           {menuItems.map((item) => {
             const Icon = item.icon;
@@ -63,12 +76,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           })}
         </nav>
 
-        {/* User Profile at bottom */}
         <div className="sidebar-footer">
           <div className="user-profile">
-            <div className="user-avatar">JD</div>
+            {userData?.image ? (
+              <img src={userData.image} alt="User" className="user-avatar" />
+            ) : (
+              <div className="user-avatar">
+                {getInitials(userData?.name || '')}
+              </div>
+            )}
             <div className="user-info">
-              <div className="user-name">John Doe</div>
+              <div className="user-name">{userData?.name || 'Admin'}</div>
               <div className="user-role">Administrator</div>
             </div>
           </div>

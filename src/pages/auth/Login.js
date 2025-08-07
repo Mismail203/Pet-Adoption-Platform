@@ -3,9 +3,9 @@ import { Lock, Mail, Eye, EyeOff, Loader } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-const Login = ({ onLogin }) => {  // Destructure onLogin from props
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ onLogin }) => {
+  const [email, setEmail] = useState('admin@petadopt.com');
+  const [password, setPassword] = useState('Admin@123');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -14,18 +14,42 @@ const Login = ({ onLogin }) => {  // Destructure onLogin from props
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+    setError('');
+
+    // Basic validation
+    if (!email || !password) {
+      setError('Email and password are required');
+      setLoading(false);
+      return;
+    }
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      if (email === 'admin@petadopt.com' && password === 'Admin@123') {
-        localStorage.setItem('authToken', 'admin');
+      const response = await fetch('https://stripe.faithdiscipline.org.uk/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        localStorage.setItem('authToken', data.data.id);
+        localStorage.setItem('userData', JSON.stringify(data.data));
         onLogin();
         navigate('/dashboard');
       } else {
-        throw new Error('Invalid credentials');
+        throw new Error(data.message || 'Authentication failed');
       }
     } catch (err) {
-      setError(err.message);
+      console.error('Login error:', err);
+      setError(err.message || 'Failed to connect to server');
     } finally {
       setLoading(false);
     }
@@ -34,22 +58,30 @@ const Login = ({ onLogin }) => {  // Destructure onLogin from props
   return (
     <div className="login-container">
       <div className="login-card">
-        {/* Logo Section */}
         <div className="logo-section">
           <img 
-            src="../../../public/logo.png" 
+            src="https://bfpa.org/wp-content/uploads/2020/04/logo_2019_inverse.png" 
             alt="PetAdopt Logo" 
             className="logo"
           />
-          <h1>PetAdopt Admin</h1>
+          <h1 style={{ color: '#ef0056' }}>PetAdopt Admin</h1>
+          <hr style={{ border: '1px solid #ccc', margin: '20px 0' }} />
           <p>Manage adoptions, pets, and users</p>
-          <h5>admin@petadopt.com</h5>
-          <h5>Admin@123</h5>
+          <h6>admin@petadopt.com</h6>
+          <h6>Admin@123</h6>
         </div>
 
-        {/* Login Form */}
         <form onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
+          {error && (
+            <div className="error-message">
+              {error}
+              {error.includes('credentials') && (
+                <p style={{ fontSize: '0.8rem', marginTop: '5px' }}>
+                  Hint: Try 'admin@petadopt.com' with 'Admin@123'
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="input-group">
             <Mail size={18} className="input-icon" />
@@ -84,6 +116,7 @@ const Login = ({ onLogin }) => {  // Destructure onLogin from props
             type="submit" 
             className="login-button"
             disabled={loading}
+            style={{ backgroundColor: loading ? '#ccc' : '#ef0056' }}
           >
             {loading ? (
               <>
@@ -96,7 +129,6 @@ const Login = ({ onLogin }) => {  // Destructure onLogin from props
           </button>
         </form>
 
-        {/* Security Tips */}
         <div className="security-tips">
           <p>🔒 Always log out after use</p>
           <p>🛡️ Enable 2FA in settings</p>
