@@ -30,7 +30,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Libraries
 npm install recharts
+
 npm install react-router-dom
+
 npm install lucide-react
 
 In the project directory, you can run:
