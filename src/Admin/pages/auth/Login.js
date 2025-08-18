@@ -43,7 +43,7 @@ const Login = ({ onLogin }) => {
         localStorage.setItem('authToken', data.data.id);
         localStorage.setItem('userData', JSON.stringify(data.data));
         onLogin();
-        navigate('/dashboard');
+        navigate('/admin/dashboard'); // not '/dashboard'
       } else {
         throw new Error(data.message || 'Authentication failed');
       }

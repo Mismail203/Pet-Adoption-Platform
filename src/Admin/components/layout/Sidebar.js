@@ -27,12 +27,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   }, []);
 
   const menuItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/dashboard' },
-    { id: 'users', icon: Users, label: 'Users', path: '/users' },
-    { id: 'pets', icon: PawPrint, label: 'Pets', path: '/pets' },
-    { id: 'treatments', icon: Syringe, label: 'Treatments', path: '/treatments' },
-    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
-    { id: 'logout', icon: LogOut, label: 'Logout', path: '/logout' }
+    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/admin/dashboard' },
+    { id: 'users', icon: Users, label: 'Users', path: '/admin/users' },
+    { id: 'pets', icon: PawPrint, label: 'Pets', path: '/admin/pets' },
+    { id: 'treatments', icon: Syringe, label: 'Treatments', path: '/admin/treatments' },
+    { id: 'settings', icon: Settings, label: 'Settings', path: '/admin/settings' },
+    { id: 'logout', icon: LogOut, label: 'Logout', path: '/admin/logout' }
   ];
 
   // Get initials from name

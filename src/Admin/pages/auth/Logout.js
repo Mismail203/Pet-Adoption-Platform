@@ -16,7 +16,7 @@ const Logout = ({ onLogout }) => {
     }
 
     // Redirect to login immediately
-    navigate('/login', { replace: true });
+    navigate('/admin/login', { replace: true });
   }, [navigate, onLogout]);
 
   return (
