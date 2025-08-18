@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { 
   Search, 
   Plus, 
-  MoreVertical, 
   Edit, 
   Trash2,
   User,
   ChevronDown,
   ChevronRight,
-  X
 } from 'lucide-react';
 import AddUser from './AddUser';
 import EditUser from './EditUser';
@@ -22,24 +20,21 @@ const Users = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [deletingUser, setDeletingUser] = useState(null);
   const [addingUser, setAddingUser] = useState(false);
+
+  // pagination states
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'Administrator',
-      status: 'active',
-      lastActive: '2 hours ago',
-      details: {
-        department: 'Engineering',
-        location: 'San Francisco',
-        phone: '+1 (555) 123-4567'
-      }
-    },
-    // ... other users
+    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Administrator', status: 'active', lastActive: '2 hours ago', details: { department: 'Engineering', location: 'San Francisco', phone: '+1 (555) 123-4567' }},
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'active', lastActive: '1 hour ago', details: { department: 'Design', location: 'New York', phone: '+1 (555) 222-3333' }},
+    { id: 3, name: 'Mike Brown', email: 'mike@example.com', role: 'Viewer', status: 'inactive', lastActive: '5 days ago', details: { department: 'Marketing', location: 'Chicago', phone: '+1 (555) 444-5555' }},
+    { id: 4, name: 'Alice Green', email: 'alice@example.com', role: 'Administrator', status: 'active', lastActive: '3 hours ago', details: { department: 'HR', location: 'San Francisco', phone: '+1 (555) 111-2222' }},
+    { id: 5, name: 'Sam Wilson', email: 'sam@example.com', role: 'Editor', status: 'active', lastActive: '30 mins ago', details: { department: 'Product', location: 'Los Angeles', phone: '+1 (555) 666-7777' }},
+    { id: 6, name: 'Chris Lee', email: 'chris@example.com', role: 'Viewer', status: 'inactive', lastActive: '10 days ago', details: { department: 'Support', location: 'Seattle', phone: '+1 (555) 888-9999' }},
+    { id: 7, name: 'Emma Davis', email: 'emma@example.com', role: 'Editor', status: 'active', lastActive: '4 hours ago', details: { department: 'Content', location: 'Austin', phone: '+1 (555) 333-4444' }},
   ]);
 
-  // Helper functions
   const toggleUserDetails = (userId) => {
     setExpandedUser(expandedUser === userId ? null : userId);
   };
@@ -66,6 +61,11 @@ const Users = () => {
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // pagination logic
+  const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + rowsPerPage);
+
   return (
     <div className="users-page">
       {/* Header Section */}
@@ -91,10 +91,25 @@ const Users = () => {
         </div>
       </div>
 
+      {/* Rows per page selector */}
+      <div className="rows-selector">
+        <label>Rows per page:</label>
+        <select 
+          value={rowsPerPage} 
+          onChange={(e) => {
+            setRowsPerPage(Number(e.target.value));
+            setCurrentPage(1); // reset to first page
+          }}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+        </select>
+      </div>
+
       {/* Users Table */}
       <div className="users-table-container">
         <table className="users-table">
-          {/* Table headers */}
           <thead>
             <tr>
               <th>Name</th>
@@ -105,13 +120,10 @@ const Users = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          
-          {/* Table body */}
           <tbody>
-            {filteredUsers.map(user => (
+            {paginatedUsers.map(user => (
               <React.Fragment key={user.id}>
                 <tr className="user-row">
-                  {/* User info cells */}
                   <td>
                     <div className="user-info">
                       <div className="user-avatar">
@@ -147,8 +159,6 @@ const Users = () => {
                     </div>
                   </td>
                 </tr>
-                
-                {/* Expanded details row */}
                 {expandedUser === user.id && (
                   <tr className="user-details-row">
                     <td colSpan="6">
@@ -193,9 +203,23 @@ const Users = () => {
 
       {/* Pagination */}
       <div className="pagination">
-        <button className="pagination-btn disabled">Previous</button>
-        <span className="page-info">Page 1 of 1</span>
-        <button className="pagination-btn">Next</button>
+        <button 
+          className="pagination-btn" 
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span className="page-info">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button 
+          className="pagination-btn" 
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </button>
       </div>
 
       {/* Modals */}
@@ -206,7 +230,6 @@ const Users = () => {
           nextId={users.length + 1}
         />
       )}
-      
       {editingUser && (
         <EditUser 
           user={editingUser}
@@ -214,7 +237,6 @@ const Users = () => {
           onSave={handleSave}
         />
       )}
-      
       {deletingUser && (
         <DeleteUser 
           user={deletingUser}

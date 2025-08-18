@@ -6,7 +6,9 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/admin/*" element={<Admin />} /> {/* Route admin here */}
+      <Route path="/" element={<Navigate to="/admin/login" replace />} /> {/* default admin route here will change later */}
+      <Route path="admin/" element={<Navigate to="/admin/login" replace />} /> {/* Route admin here */}
+      <Route path="/admin/*" element={<Admin />} /> {/* Route admin here */}
       </Routes>
     </Router>
   );

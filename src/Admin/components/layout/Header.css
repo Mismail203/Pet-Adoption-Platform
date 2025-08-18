@@ -425,3 +425,10 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
+  @media (max-width: 768px) {
+    .search-container {
+      display: none;
+    }
+  }
+  

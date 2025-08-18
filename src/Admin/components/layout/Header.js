@@ -4,10 +4,11 @@ import {
   Search, 
   Bell, 
   ChevronDown,
-  Settings,
+  Settings as SettingsIcon, // renamed to avoid conflict
   User,
   LogOut
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = ({ toggleSidebar, pageTitle = "Dashboard", onLogout }) => {
@@ -51,16 +52,17 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard", onLogout }) => {
       </div>
 
       <div className="header-right">
-        <div className="search-container">
-          <Search className="search-icon" size={18} />
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className="search-input"
-          />
-        </div>
+      <div className="search-container hidden md:flex">
+  <Search className="search-icon" size={18} />
+  <input
+    type="text"
+    placeholder="Search..."
+    value={searchValue}
+    onChange={(e) => setSearchValue(e.target.value)}
+    className="search-input"
+  />
+</div>
+
 
         <div className="notification-container">
           <button 
@@ -111,7 +113,6 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard", onLogout }) => {
             )}
             <div className="user-info">
               <span className="user-name">{userData?.name || 'User'}</span>
-              {/* <span className="user-role">Admin</span> */}
             </div>
             <ChevronDown size={16} />
           </button>
@@ -132,14 +133,10 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard", onLogout }) => {
                 </div>
               </div>
               <div className="user-dropdown-menu">
-                <button className="dropdown-item">
-                  <User size={16} />
-                  <span>Profile</span>
-                </button>
-                <button className="dropdown-item">
-                  <Settings size={16} />
+                <Link to="/admin/settings" className="dropdown-item flex items-center gap-2">
+                  <SettingsIcon size={16} />
                   <span>Settings</span>
-                </button>
+                </Link>
                 <hr className="dropdown-divider" />
                 <button className="dropdown-item logout" onClick={handleLogout}>
                   <LogOut size={16} />

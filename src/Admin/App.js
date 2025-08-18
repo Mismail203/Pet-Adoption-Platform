@@ -27,7 +27,7 @@ export default function AdminApp() {
     console.log('Auth?', !!token);
   }, []);
 
-  const handleLogin  = () => setIsAuthenticated(true);
+  const handleLogin = () => setIsAuthenticated(true);
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
@@ -50,6 +50,18 @@ export default function AdminApp() {
       </div>
     </>
   );
+  // define this variable to fix error on mobile view
+  const resizeObserverErr = e => {
+    if (
+      e.message ===
+      'ResizeObserver loop completed with undelivered notifications.'
+    ) {
+      return;
+    }
+    console.error(e);
+  };
+
+  window.addEventListener('error', resizeObserverErr);
 
   return (
     <div className="app-container">
