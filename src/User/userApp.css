@@ -1,0 +1,317 @@
+/* Body background */
+.cont {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(
+    90deg,
+    rgba(72, 71, 148, 1) 0%,
+    rgba(91, 91, 140, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#root {
+  width: 100% !important;
+}
+
+/* Login Container */
+.login-container1 {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  padding: 2rem;
+  background: #ffffff; /* White container */
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Title */
+.login-title {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Message/Error */
+.login-message {
+  color: crimson;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Input Fields */
+.login-input {
+  padding: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+.login-input:focus {
+  border-color: blueviolet;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.6);
+}
+
+/* Buttons */
+.login-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  background-color: blueviolet;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: indigo;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: blueviolet;
+  padding: 10px 15px;
+  border: 1px solid blueviolet;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: blueviolet;
+  color: white;
+}
+
+/* Forgot Password Button */
+.forgot-password-btn {
+  margin-top: 15px;
+  background: none;
+  border: none;
+  color: blueviolet;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Register Container */
+.register-container {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  padding: 2rem;
+  background: #ffffff; /* White card */
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Title */
+.register-title {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Message/Error */
+.register-message {
+  color: crimson;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+/* Form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Input Fields */
+.register-input {
+  padding: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+.register-input:focus {
+  border-color: blueviolet;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.6);
+}
+
+/* Buttons */
+.register-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Forgot Password Container */
+.forgot-container {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Title */
+.forgot-title {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Message */
+.forgot-message {
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: crimson;
+}
+
+/* Input */
+.forgot-input {
+  padding: 10px;
+  width: 90%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+.forgot-input:focus {
+  border-color: blueviolet;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.6);
+}
+
+/* Back Button */
+.btn-back {
+  margin-top: 15px;
+  background: none;
+  border: none;
+  color: blueviolet;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.btnn_back {
+  display: block;
+  align-items: center;
+  margin: 10px auto;
+}
+
+/* Verify OTP Container */
+.verify-container {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Title */
+.verify-title {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Message */
+.verify-message {
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: crimson;
+}
+
+/* Input */
+.verify-input {
+  padding: 10px;
+  width: 90%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+.verify-input:focus {
+  border-color: blueviolet;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.6);
+}
+
+/* Reset Password Container */
+.reset-container {
+  max-width: 400px;
+  width: 100%;
+  margin: auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Title */
+.reset-title {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Error / Info Message */
+.reset-message {
+  font-size: 14px;
+  margin-bottom: 1rem;
+  color: crimson;
+}
+
+/* Inputs */
+.reset-input {
+  padding: 10px;
+  width: 90%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reset-input:focus {
+  border-color: blueviolet;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.6);
+}
