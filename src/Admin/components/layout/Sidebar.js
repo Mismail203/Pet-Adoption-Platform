@@ -6,19 +6,21 @@ import {
   ShoppingCart, 
   BarChart3, 
   Settings,
-  Menu,
   X,
   PawPrint,
   Syringe,
-  LogOut
+  LogOut,
+  DollarSign,
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const [userData, setUserData] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
 
-  // Load user data from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem('userData');
     if (storedUser) {
@@ -31,11 +33,20 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { id: 'users', icon: Users, label: 'Users', path: '/admin/users' },
     { id: 'pets', icon: PawPrint, label: 'Pets', path: '/admin/pets' },
     { id: 'treatments', icon: Syringe, label: 'Treatments', path: '/admin/treatments' },
+    {
+      id: 'payments',
+      icon: DollarSign,
+      label: 'Payments',
+      children: [
+        { id: 'paid', label: 'Paid Payments', path: '/admin/payments/paid' },
+        { id: 'pending', label: 'Pending Payments', path: '/admin/payments/pending' },
+        { id: 'rejected', label: 'Rejected Payments', path: '/admin/payments/rejected' }
+      ]
+    },
     { id: 'settings', icon: Settings, label: 'Settings', path: '/admin/settings' },
     { id: 'logout', icon: LogOut, label: 'Logout', path: '/admin/logout' }
   ];
 
-  // Get initials from name
   const getInitials = (name) => {
     if (!name) return '';
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -44,7 +55,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <>
       {isOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
-      
       <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <div className="logo">
@@ -62,16 +72,59 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
+            const hasChildren = !!item.children;
+
+            if (!hasChildren) {
+              return (
+                <Link
+                  key={item.id}
+                  to={item.path}
+                  className={`nav-item ${isActive ? 'active' : ''}`}
+                  onClick={toggleSidebar}
+                >
+                  <Icon size={20} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            }
+
+            // parent with children
             return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className={`nav-item ${isActive ? 'active' : ''}`}
-                onClick={toggleSidebar}
-              >
-                <Icon size={20} />
-                <span>{item.label}</span>
-              </Link>
+              <div key={item.id} className="nav-group">
+                <div
+                  className={`nav-item ${openMenu === item.id ? 'open' : ''}`}
+                  onClick={() =>
+                    setOpenMenu(openMenu === item.id ? null : item.id)
+                  }
+                >
+                  <Icon size={20} />
+                  <span>{item.label}</span>
+                  {openMenu === item.id ? (
+                    <ChevronDown size={16} className="chevron" />
+                  ) : (
+                    <ChevronRight size={16} className="chevron" />
+                  )}
+                </div>
+                {openMenu === item.id && (
+                  <div className="submenu">
+                    {item.children.map((child) => {
+                      const activeChild = location.pathname === child.path;
+                      return (
+                        <Link
+                          key={child.id}
+                          to={child.path}
+                          className={`submenu-item ${
+                            activeChild ? 'active' : ''
+                          }`}
+                          onClick={toggleSidebar}
+                        >
+                          {child.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>

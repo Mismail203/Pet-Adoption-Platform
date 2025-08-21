@@ -7,7 +7,8 @@ import Sidebar from './components/layout/Sidebar';
 import Dashboard from './pages/dashboard/Dashboard';
 import Users from './pages/users/Users';
 import Pets from './pages/pets/Pets';
-import Treatments from './pages/treatments/treatments';
+import Treatments from './pages/treatments/Treatments';
+import Payments from './pages/payments/Payments';
 import Settings from './pages/settings/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Loader } from 'lucide-react';
@@ -122,6 +123,19 @@ export default function AdminApp() {
               <Layout><Treatments /></Layout>
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="payments/:status"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Layout><Payments /></Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payments"
+          element={<Navigate to="payments/paid" replace />}
         />
 
         <Route

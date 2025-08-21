@@ -18,6 +18,29 @@
 .sidebar-open {
   transform: translateX(0);
 }
+.nav-group .submenu {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  margin-top: 5px;
+}
+
+.submenu-item {
+  padding: 8px 0;
+  font-size: 14px;
+  color: #6c757d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.submenu-item:hover {
+  color: #007bff;
+}
+
+.submenu-item.active {
+  color: #007bff;
+  font-weight: 600;
+}
 
 /* Mobile Overlay */
 .sidebar-overlay {
