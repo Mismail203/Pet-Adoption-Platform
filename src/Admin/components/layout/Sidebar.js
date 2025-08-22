@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Users, 
-  ShoppingCart, 
-  BarChart3, 
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Home,
+  Users,
+  ShoppingCart,
+  BarChart3,
   Settings,
   Menu,
   X,
   PawPrint,
   Syringe,
-  LogOut
-} from 'lucide-react';
-import './Sidebar.css';
+  LogOut,
+  ClipboardCheck,
+} from "lucide-react";
+import "./Sidebar.css";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
@@ -20,32 +21,65 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   // Load user data from localStorage
   useEffect(() => {
-    const storedUser = localStorage.getItem('userData');
+    const storedUser = localStorage.getItem("userData");
     if (storedUser) {
       setUserData(JSON.parse(storedUser));
     }
   }, []);
 
   const menuItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/admin/dashboard' },
-    { id: 'users', icon: Users, label: 'Users', path: '/admin/users' },
-    { id: 'pets', icon: PawPrint, label: 'Pets', path: '/admin/pets' },
-    { id: 'treatments', icon: Syringe, label: 'Treatments', path: '/admin/treatments' },
-    { id: 'settings', icon: Settings, label: 'Settings', path: '/admin/settings' },
-    { id: 'logout', icon: LogOut, label: 'Logout', path: '/admin/logout' }
+    {
+      id: "dashboard",
+      icon: Home,
+      label: "Dashboard",
+      path: "/admin/dashboard",
+    },
+    { id: "users", icon: Users, label: "Users", path: "/admin/users" },
+    { id: "pets", icon: PawPrint, label: "Pets", path: "/admin/pets" },
+    {
+      id: "adoptions",
+      icon: ClipboardCheck,
+      label: "Adoptions",
+      path: "/admin/adoptions",
+    },
+    {
+      id: "returns",
+      icon: ClipboardCheck,
+      label: "Returns",
+      path: "/admin/returns",
+    },
+    {
+      id: "treatments",
+      icon: Syringe,
+      label: "Treatments",
+      path: "/admin/treatments",
+    },
+    {
+      id: "settings",
+      icon: Settings,
+      label: "Settings",
+      path: "/admin/settings",
+    },
+    { id: "logout", icon: LogOut, label: "Logout", path: "/admin/logout" },
   ];
 
   // Get initials from name
   const getInitials = (name) => {
-    if (!name) return '';
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    if (!name) return "";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
   };
 
   return (
     <>
-      {isOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
-      
-      <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
+      {isOpen && (
+        <div className="sidebar-overlay" onClick={toggleSidebar}></div>
+      )}
+
+      <div className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
         <div className="sidebar-header">
           <div className="logo">
             <div className="logo-icon">
@@ -66,7 +100,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <Link
                 key={item.id}
                 to={item.path}
-                className={`nav-item ${isActive ? 'active' : ''}`}
+                className={`nav-item ${isActive ? "active" : ""}`}
                 onClick={toggleSidebar}
               >
                 <Icon size={20} />
@@ -82,11 +116,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <img src={userData.image} alt="User" className="user-avatar" />
             ) : (
               <div className="user-avatar">
-                {getInitials(userData?.name || '')}
+                {getInitials(userData?.name || "")}
               </div>
             )}
             <div className="user-info">
-              <div className="user-name">{userData?.name || 'Admin'}</div>
+              <div className="user-name">{userData?.name || "Admin"}</div>
               <div className="user-role">Administrator</div>
             </div>
           </div>
