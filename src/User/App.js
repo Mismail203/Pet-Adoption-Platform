@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import RegisterForm from "./Auth/register.js";
 import LoginForm from "./Auth/login.js";
 import ForgotPassword from "./Auth/ForgotPassword.js";
 import VerifyOtp from "./Auth/VerifyOtp.js";
 import ResetPassword from "./Auth/ResetPassword.js";
-import Dashboard from "./Dashboard/dashboard.js"; // ✅ Import Dashboard
+import DashboardApp from "../Dashboard/App";
 import "./userApp.css";
 
 function App() {
   const [page, setPage] = useState("login");
   const [userEmail, setUserEmail] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname.startsWith("/app/logout")) {
+      setPage("login");
+    } else if (
+      location.pathname.startsWith("/app/dashboard") ||
+      location.pathname.startsWith("/app/pets") ||
+      location.pathname.startsWith("/app/treatment")
+    ) {
+      setPage("dashboard");
+    } else if (location.pathname.startsWith("/app/login")) {
+      setPage("login");
+    }
+  }, [location.pathname]);
 
   return (
     <div className="cont">
@@ -37,7 +54,7 @@ function App() {
           <LoginForm
             goRegister={() => setPage("register")}
             goForgotPassword={() => setPage("forgot")}
-            onLoginSuccess={() => setPage("dashboard")} // ✅ Redirect to Dashboard
+            onLoginSuccess={() => { setPage("dashboard"); navigate("/app/dashboard"); }}
           />
         )}
 
@@ -66,7 +83,7 @@ function App() {
         )}
 
         {page === "dashboard" && (
-          <Dashboard goLogout={() => setPage("login")} /> // ✅ Option to logout
+          <DashboardApp />
         )}
       </div>
     </div>
