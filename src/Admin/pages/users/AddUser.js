@@ -1,43 +1,52 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import axios from 'axios';
 
-const AddUser = ({ onClose, onSave, nextId }) => {
+const AddUser = ({ onClose, onSave }) => {
   const [formData, setFormData] = useState({
-    id: nextId,
     name: '',
     email: '',
-    role: 'Developer',
-    status: 'active',
-    details: {
-      department: '',
-      location: '',
-      phone: ''
-    }
+    password: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name in formData.details) {
-      setFormData(prev => ({
-        ...prev,
-        details: {
-          ...prev.details,
-          [name]: value
-        }
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Set lastActive to "Just now" for new users
-    const userWithTimestamp = {
-      ...formData,
-      lastActive: 'Just now'
-    };
-    onSave(userWithTimestamp);
+    setLoading(true);
+    setError('');
+
+    try {
+      const res = await axios.post(
+        'https://node-api-wlq1.onrender.com/api/users',
+        formData
+      );
+
+      onSave({ ...formData, _id: Date.now() });
+      setLoading(false);
+      onClose();
+    } catch (err) {
+      console.error(err);
+
+      let message = 'Failed to add user';
+      if (err.response && err.response.data) {
+        if (typeof err.response.data === 'string') {
+          message = err.response.data;
+        } else if (err.response.data.message) {
+          message = err.response.data.message;
+        } else {
+          message = JSON.stringify(err.response.data);
+        }
+      }
+
+      setError(message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,8 +58,13 @@ const AddUser = ({ onClose, onSave, nextId }) => {
             <X size={20} />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
+          {error && (
+            <p className="error-text" style={{ color: 'red' }}>
+              {error}
+            </p>
+          )}
           <div className="form-group">
             <label>Full Name</label>
             <input
@@ -62,7 +76,7 @@ const AddUser = ({ onClose, onSave, nextId }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label>Email Address</label>
             <input
@@ -74,85 +88,34 @@ const AddUser = ({ onClose, onSave, nextId }) => {
               required
             />
           </div>
-          
-          <div className="form-row">
-            <div className="form-group">
-              <label>Role</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                required
-              >
-                <option value="Administrator">Administrator</option>
-                <option value="Manager">Manager</option>
-                <option value="Developer">Developer</option>
-                <option value="Designer">Designer</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label>Status</label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                required
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
-          
+
           <div className="form-group">
-            <label>Department</label>
+            <label>Password</label>
             <input
-              type="text"
-              name="department"
-              value={formData.details.department}
+              type="password"
+              name="password"
+              value={formData.password}
               onChange={handleChange}
-              placeholder="Enter department"
+              placeholder="Enter password"
+              required
             />
           </div>
-          
-          <div className="form-row">
-            <div className="form-group">
-              <label>Location</label>
-              <input
-                type="text"
-                name="location"
-                value={formData.details.location}
-                onChange={handleChange}
-                placeholder="Enter location"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Phone Number</label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.details.phone}
-                onChange={handleChange}
-                placeholder="Enter phone number"
-              />
-            </div>
-          </div>
-          
+
           <div className="modal-actions">
-            <button 
-              type="button" 
-              className="cancel-btn" 
+            <button
+              type="button"
+              className="cancel-btn"
               onClick={onClose}
+              disabled={loading}
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="save-btn"
+              disabled={loading}
             >
-              Add User
+              {loading ? 'Adding...' : 'Add User'}
             </button>
           </div>
         </form>

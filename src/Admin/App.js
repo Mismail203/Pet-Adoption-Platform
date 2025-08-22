@@ -11,9 +11,10 @@ import Treatments from "./pages/treatments/treatments";
 import Settings from "./pages/settings/Settings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Loader } from "lucide-react";
-import "./App.css";
 import Adoptions from "./pages/adoptions/adoption";
 import Returns from "./pages/returns/return";
+import Payments from "./pages/payments/Payments";
+import "./App.css";
 
 export default function AdminApp() {
   console.log("Admin App rendered");
@@ -157,6 +158,20 @@ export default function AdminApp() {
               </Layout>
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="payments/:status"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Layout>
+                <Payments />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="payments"
+          element={<Navigate to="payments/paid" replace />}
         />
         <Route
           path="settings"
