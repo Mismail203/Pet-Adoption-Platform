@@ -12,14 +12,14 @@
 }
 
 /* Header */
-.header {
+.header-user {
 	position: sticky;
 	top: 0;
 	z-index: 50;
 	background: linear-gradient(180deg, #0f1733 0%, #0c132b 100%);
 	border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.header .container {
+.header-user .container-user {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -28,14 +28,14 @@
 	max-width: 1200px;
 	margin: 0 auto;
 }
-.logo {
+.logo-user {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	font-weight: 700;
 	letter-spacing: 0.2px;
 }
-.logo .mark {
+.logo-user .mark {
 	width: 12px;
 	height: 12px;
 	border-radius: 4px;
@@ -74,7 +74,7 @@
 }
 
 /* Sidebar */
-.sidebar {
+.sidebar-user {
 	position: sticky;
 	top: 56px;
 	height: calc(100vh - 56px);
@@ -82,12 +82,12 @@
 	border-right: 1px solid rgba(255,255,255,0.06);
 	padding: 16px 12px;
 }
-.nav {
+.nav-user {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
-.nav a {
+.nav-user a {
 	display: flex;
 	align-items: center;
 	gap: 10px;
@@ -97,8 +97,8 @@
 	color: #cdd5e1;
 	transition: background 0.2s ease, color 0.2s ease;
 }
-.nav a:hover { background: rgba(124, 92, 255, 0.12); color: #f8fafc; }
-.nav a.active { background: rgba(124, 92, 255, 0.22); color: white; }
+.nav-user a:hover { background: rgba(124, 92, 255, 0.12); color: #f8fafc; }
+.nav-user a.active { background: rgba(124, 92, 255, 0.22); color: white; }
 
 /* Content */
 .dashboard-content {
@@ -115,7 +115,7 @@
 	grid-template-columns: repeat(12, 1fr);
 	gap: 16px;
 }
-.card {
+.card-user {
 	grid-column: span 12;
 	background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
 	border: 1px solid rgba(255,255,255,0.06);

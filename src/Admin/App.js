@@ -7,7 +7,7 @@ import Sidebar from "./components/layout/Sidebar";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Users from "./pages/users/Users";
 import Pets from "./pages/pets/Pets";
-import Treatments from "./pages/treatments/treatments";
+import Treatments from "./pages/treatments/Treatments";
 import Settings from "./pages/settings/Settings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Loader } from "lucide-react";

@@ -29,7 +29,7 @@ export default function Dashboard() {
 					<div>💊</div>
 				</section>
 			</div>
-			<section className="card" style={{ marginTop: 16 }}>
+			<section className="card-user" style={{ marginTop: 16 }}>
 				<h3 style={{ marginTop: 0 }}>Overview</h3>
 				<p className="dashboard-overview">
 					Welcome back! This is your analytics overview. Hook up charts and real data later.

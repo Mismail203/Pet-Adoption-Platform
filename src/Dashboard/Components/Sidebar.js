@@ -5,8 +5,8 @@ import "./sidebar.css";
 
 export default function Sidebar() {
 	return (
-		<aside className="sidebar">
-			<nav className="nav">
+		<aside className="sidebar-user">
+			<nav className="nav-user">
 				<NavLink to="/app/dashboard" end className={({ isActive }) => isActive ? "active" : undefined}>
 					<span>🏠</span>
 					<span>Dashboard</span>

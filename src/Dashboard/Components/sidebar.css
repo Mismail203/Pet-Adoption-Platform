@@ -1,5 +1,5 @@
 
-.sidebar {
+.sidebar-user {
 	position: sticky;
 	top: 56px;
 	height: calc(100vh - 56px);
@@ -7,12 +7,12 @@
 	border-right: 1px solid rgba(255,255,255,0.06);
 	padding: 16px 12px;
 }
-.nav {
+.nav-user {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
-.nav a {
+.nav-user a {
 	display: flex;
 	align-items: center;
 	gap: 10px;
@@ -22,5 +22,5 @@
 	color: #cdd5e1;
 	transition: background 0.2s ease, color 0.2s ease;
 }
-.nav a:hover { background: rgba(124, 92, 255, 0.12); color: #f8fafc; }
-.nav a.active { background: rgba(124, 92, 255, 0.22); color: white; }
+.nav-user a:hover { background: rgba(124, 92, 255, 0.12); color: #f8fafc; }
+.nav-user a.active { background: rgba(124, 92, 255, 0.22); color: white; }

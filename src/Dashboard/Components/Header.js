@@ -11,9 +11,9 @@ export default function Header() {
 	};
 
 	return (
-		<header className="header">
+		<header className="header-user">
 			<div className="container">
-				<div className="logo" role="img" aria-label="Pet Adoption">
+				<div className="logo-user" role="img" aria-label="Pet Adoption">
 					<span className="mark" />
 					<span>Pet Adoption</span>
 				</div>
