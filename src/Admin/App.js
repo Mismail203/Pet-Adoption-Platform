@@ -19,7 +19,7 @@ import "./App.css";
 export default function AdminApp() {
   console.log("Admin App rendered");
 
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -76,7 +76,6 @@ export default function AdminApp() {
   return (
     <div className="app-container">
       <Routes>
-        {/* relative paths! now these resolve under /admin/... */}
         <Route
           path="login"
           element={

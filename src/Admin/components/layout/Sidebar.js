@@ -10,17 +10,12 @@ import {
   PawPrint,
   Syringe,
   LogOut,
-<<<<<<< HEAD
-  ClipboardCheck,
-} from "lucide-react";
-import "./Sidebar.css";
-=======
   DollarSign,
   ChevronDown,
-  ChevronRight
-} from 'lucide-react';
-import './Sidebar.css';
->>>>>>> 6784e4f09228ccadcedff785f719fbf0e5d3d5c0
+  ClipboardCheck,
+  ChevronRight,
+} from "lucide-react";
+import "./Sidebar.css";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
@@ -62,14 +57,22 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       path: "/admin/treatments",
     },
     {
-      id: 'payments',
+      id: "payments",
       icon: DollarSign,
-      label: 'Payments',
+      label: "Payments",
       children: [
-        { id: 'paid', label: 'Paid Payments', path: '/admin/payments/paid' },
-        { id: 'pending', label: 'Pending Payments', path: '/admin/payments/pending' },
-        { id: 'rejected', label: 'Rejected Payments', path: '/admin/payments/rejected' }
-      ]
+        { id: "paid", label: "Paid Payments", path: "/admin/payments/paid" },
+        {
+          id: "pending",
+          label: "Pending Payments",
+          path: "/admin/payments/pending",
+        },
+        {
+          id: "rejected",
+          label: "Rejected Payments",
+          path: "/admin/payments/rejected",
+        },
+      ],
     },
     {
       id: "settings",
@@ -91,16 +94,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   return (
     <>
-<<<<<<< HEAD
       {isOpen && (
         <div className="sidebar-overlay" onClick={toggleSidebar}></div>
       )}
-
       <div className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
-=======
-      {isOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
-      <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
->>>>>>> 6784e4f09228ccadcedff785f719fbf0e5d3d5c0
         <div className="sidebar-header">
           <div className="logo">
             <div className="logo-icon">
@@ -124,7 +121,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 <Link
                   key={item.id}
                   to={item.path}
-                  className={`nav-item ${isActive ? 'active' : ''}`}
+                  className={`nav-item ${isActive ? "active" : ""}`}
                   onClick={toggleSidebar}
                 >
                   <Icon size={20} />
@@ -135,20 +132,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
             // parent with children
             return (
-<<<<<<< HEAD
-              <Link
-                key={item.id}
-                to={item.path}
-                className={`nav-item ${isActive ? "active" : ""}`}
-                onClick={toggleSidebar}
-              >
-                <Icon size={20} />
-                <span>{item.label}</span>
-              </Link>
-=======
               <div key={item.id} className="nav-group">
                 <div
-                  className={`nav-item ${openMenu === item.id ? 'open' : ''}`}
+                  className={`nav-item ${openMenu === item.id ? "open" : ""}`}
                   onClick={() =>
                     setOpenMenu(openMenu === item.id ? null : item.id)
                   }
@@ -170,7 +156,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                           key={child.id}
                           to={child.path}
                           className={`submenu-item ${
-                            activeChild ? 'active' : ''
+                            activeChild ? "active" : ""
                           }`}
                           onClick={toggleSidebar}
                         >
@@ -181,7 +167,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   </div>
                 )}
               </div>
->>>>>>> 6784e4f09228ccadcedff785f719fbf0e5d3d5c0
             );
           })}
         </nav>
