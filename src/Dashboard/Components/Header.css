@@ -1,0 +1,52 @@
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: linear-gradient(180deg, #0f1733 0%, #0c132b 100%);
+	border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.header .container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 14px 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 700;
+	letter-spacing: 0.2px;
+}
+.logo .mark {
+	width: 12px;
+	height: 12px;
+	border-radius: 4px;
+	background: linear-gradient(135deg, #7c5cff 0%, #24d2ff 100%);
+	box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.15);
+}
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.btn {
+	appearance: none;
+	border: 1px solid rgba(255,255,255,0.14);
+	background: rgba(255,255,255,0.03);
+	color: #e6eaf2;
+	padding: 8px 12px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.btn:hover { background: rgba(255,255,255,0.08); }
+.btn.primary {
+	border-color: transparent;
+	background: linear-gradient(135deg, #7c5cff 0%, #24d2ff 100%);
+	color: white;
+	font-weight: 600;
+}
