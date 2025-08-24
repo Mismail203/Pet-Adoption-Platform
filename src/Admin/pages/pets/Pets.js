@@ -96,6 +96,7 @@ const Pets = () => {
               <th>Age</th>
               <th>Status</th>
               <th>Owner</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -123,44 +124,32 @@ const Pets = () => {
                       {pet.adoptionStatus}
                     </span>
                   </td>
-                  <td>{pet.owner.name}</td>
+                  <td>{pet.owner?.name ?? "-"}</td>
 
-                  {/* <td>
-                    <div className="actions">
+                  <td>
+                    <div className="detail-actions">
                       <button
-                        className="expand-btn"
-                        onClick={() => togglePetDetails(pet.id)}
+                        className="edit-btn"
+                        onClick={() => setEditingPet(pet)}
                       >
-                        {expandedPet === pet.id ? (
-                          <ChevronDown size={18} />
-                        ) : (
-                          <ChevronRight size={18} />
-                        )}
+                        <Edit size={20} />
+                        {/* <span>Edit</span> */}
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => setDeletingPet(pet)}
+                      >
+                        <Trash2 size={16} />
+                        {/* <span>Delete</span> */}
                       </button>
                     </div>
-                  </td> */}
+                  </td>
                 </tr>
 
                 {/* {expandedPet === pet.id && (
                   <tr className="pet-details-row">
                     <td colSpan="6">
                       <div className="pet-details">
-                        <div className="detail-item">
-                          <span className="detail-label">Last Checkup:</span>
-                          <span>{pet.lastCheckup}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Health:</span>
-                          <span>{pet.details.health}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Temperament:</span>
-                          <span>{pet.details.temperament}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Special Needs:</span>
-                          <span>{pet.details.specialNeeds}</span>
-                        </div>
                         <div className="detail-actions">
                           <button
                             className="edit-btn"
@@ -202,8 +191,9 @@ const Pets = () => {
       )}
 
       {editingPet && (
-        <EditPet
+        <AddPet
           pet={editingPet}
+          isEdit={true}
           onClose={() => setEditingPet(null)}
           onSave={handleSave}
         />
