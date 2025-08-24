@@ -15,18 +15,23 @@ import DeletePet from "./DeletePet";
 import "./Pets.css";
 import "./PetsModals.css";
 import axios from "axios";
+import AddImageModal from "./addImages";
 
 const Pets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedPet, setExpandedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
   const [deletingPet, setDeletingPet] = useState(null);
+  const [currentPet, setCurrentPet] = useState(null);
   const [addingPet, setAddingPet] = useState(false);
   const [pets, setPets] = useState([]);
-
+  const [addImagesModal, setImagesModal] = useState(false);
+  const [images, setImages] = useState(["https://placedog.net/800/600"]);
   useEffect(() => {
     axios
       .get("https://petgatewayapi.onrender.com/getAllPets")
+      // .get("https://petadoptionwebapi-1.onrender.com/api/pet/all")
+
       .then((response) => {
         setPets(response.data);
       })
@@ -96,6 +101,8 @@ const Pets = () => {
               <th>Age</th>
               <th>Status</th>
               <th>Owner</th>
+              <th>Images</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -123,44 +130,53 @@ const Pets = () => {
                       {pet.adoptionStatus}
                     </span>
                   </td>
-                  <td>{pet.owner.name}</td>
-
-                  {/* <td>
-                    <div className="actions">
+                  <td>{pet.owner?.name ?? "-"}</td>
+                  <td>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: 12,
+                      }}
+                    >
                       <button
-                        className="expand-btn"
-                        onClick={() => togglePetDetails(pet.id)}
+                        onClick={() => setImagesModal(pet)}
+                        style={{
+                          padding: "10px 14px",
+                          borderRadius: 10,
+                          background: "#111827",
+                          color: "#fff",
+                        }}
                       >
-                        {expandedPet === pet.id ? (
-                          <ChevronDown size={18} />
-                        ) : (
-                          <ChevronRight size={18} />
-                        )}
+                        + Add image
                       </button>
                     </div>
-                  </td> */}
+                  </td>
+                  <td>
+                    <div className="detail-actions">
+                      <button
+                        className="edit-btn"
+                        onClick={() => setEditingPet(pet)}
+                      >
+                        <Edit size={20} />
+                        {/* <span>Edit</span> */}
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => setDeletingPet(pet)}
+                      >
+                        <Trash2 size={16} />
+                        {/* <span>Delete</span> */}
+                      </button>
+                    </div>
+                  </td>
                 </tr>
 
                 {/* {expandedPet === pet.id && (
                   <tr className="pet-details-row">
                     <td colSpan="6">
                       <div className="pet-details">
-                        <div className="detail-item">
-                          <span className="detail-label">Last Checkup:</span>
-                          <span>{pet.lastCheckup}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Health:</span>
-                          <span>{pet.details.health}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Temperament:</span>
-                          <span>{pet.details.temperament}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Special Needs:</span>
-                          <span>{pet.details.specialNeeds}</span>
-                        </div>
                         <div className="detail-actions">
                           <button
                             className="edit-btn"
@@ -202,8 +218,9 @@ const Pets = () => {
       )}
 
       {editingPet && (
-        <EditPet
+        <AddPet
           pet={editingPet}
+          isEdit={true}
           onClose={() => setEditingPet(null)}
           onSave={handleSave}
         />
@@ -214,6 +231,18 @@ const Pets = () => {
           pet={deletingPet}
           onClose={() => setDeletingPet(null)}
           onConfirm={handleDeleteConfirm}
+        />
+      )}
+      {addImagesModal && (
+        <AddImageModal
+          open={addImagesModal ? true : false}
+          pet={addImagesModal}
+          onClose={() => setImagesModal(false)}
+          onAdd={(url) => {
+            setImages((prev) => [...prev, url]);
+            setImagesModal(false);
+          }}
+          // placeholder="https://loremflickr.com/800/600/pet"
         />
       )}
     </div>

@@ -1,88 +1,127 @@
-import React, { useState } from 'react';
-import { X, PawPrint } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { X, PawPrint } from "lucide-react";
+import axios from "axios";
+import { gateway } from "../helper";
 
-const AddPet = ({ onClose, onSave, nextId }) => {
-  const [formData, setFormData] = useState({
-    id: nextId,
-    name: '',
-    type: 'Dog',
-    breed: '',
-    age: '',
-    status: 'Available',
-    lastCheckup: '',
-    details: {
-      health: 'Excellent',
-      temperament: 'Friendly',
-      specialNeeds: 'None'
+const AddPet = ({ onClose, isEdit = false, pet }) => {
+  const [formData, setFormData] = useState(
+    isEdit
+      ? pet
+      : {
+          petName: null,
+          specie: null,
+          breed: null,
+          price: 0,
+          age: 0,
+          description: "",
+          adoptionStatus: "Available",
+          ownerId: null,
+          gender: "Male",
+        }
+  );
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
+  const fetchAllUsers = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        "https://node-api-wlq1.onrender.com/api/users/get-all-users"
+      );
+      setUsers(res.data);
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch users");
+    } finally {
+      setLoading(false);
     }
-  });
-
-  const petTypes = ['Dog', 'Cat', 'Bird', 'Rabbit', 'Other'];
-  const healthOptions = ['Excellent', 'Good', 'Fair', 'Poor'];
-  const temperamentOptions = ['Friendly', 'Playful', 'Shy', 'Aggressive'];
+  };
+  const petTypes = ["Dog", "Cat", "Bird", "Rabbit", "Other"];
+  const gender = ["Male", "Female"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name in formData.details) {
-      setFormData(prev => ({
-        ...prev,
-        details: {
-          ...prev.details,
-          [name]: value
-        }
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const petWithTimestamp = {
-      ...formData,
-      lastCheckup: formData.lastCheckup || 'Not recorded'
-    };
-    onSave(petWithTimestamp);
+    const url = isEdit
+      ? `${gateway}/editPet/${formData.petId}` // <-- make sure gateway has this mount!
+      : `${gateway}/addPet`;
+
+    // If your backend expects PUT for edits, change method to "put"
+    const method = isEdit ? "post" : "post";
+
+    try {
+      const res = await axios({
+        method,
+        url,
+        data: formData,
+        headers: { "Content-Type": "application/json" },
+        withCredentials: false,
+      });
+      console.log("✅ Success:", res.data);
+      alert(isEdit ? "Pet updated successfully!" : "Pet added successfully!");
+    } catch (err) {
+      console.error("❌ Request failed:", err?.response?.data || err.message);
+      alert(
+        `Failed to ${isEdit ? "update" : "add"} pet${
+          err?.response?.status ? ` (HTTP ${err.response.status})` : ""
+        }`
+      );
+    }
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-container">
         <div className="modal-header">
-          <h2>Add New Pet</h2>
+          <h2>{isEdit ? "Edit Pet" : "Add New Pet"}</h2>
           <button className="close-btn" onClick={onClose}>
             <X size={20} />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Pet Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter pet name"
-              required
-            />
+          <div className="form-row">
+            <div className="form-group">
+              <label>Pet Name</label>
+              <input
+                type="text"
+                name="petName"
+                value={formData.petName}
+                onChange={handleChange}
+                placeholder="Enter pet name"
+                required
+              />
+            </div>
           </div>
-          
+
           <div className="form-row">
             <div className="form-group">
               <label>Type</label>
               <select
-                name="type"
-                value={formData.type}
+                name="specie"
+                value={formData.specie}
                 onChange={handleChange}
                 required
               >
-                {petTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
+                {petTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>Breed</label>
               <input
@@ -95,95 +134,117 @@ const AddPet = ({ onClose, onSave, nextId }) => {
               />
             </div>
           </div>
-          
+
           <div className="form-row">
             <div className="form-group">
               <label>Age (years)</label>
               <input
                 type="number"
                 name="age"
-                value={formData.age}
-                onChange={handleChange}
+                value={parseFloat(formData.age)}
+                onChange={(e) =>
+                  setFormData((p) => ({
+                    ...p,
+                    age: parseFloat(e.target.value),
+                  }))
+                }
                 placeholder="Enter age"
-                min="0"
-                max="30"
+                min={0}
+                max={30}
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label>Status</label>
               <select
-                name="status"
-                value={formData.status}
+                name="adoptionStatus"
+                value={formData.adoptionStatus}
                 onChange={handleChange}
                 required
               >
                 <option value="Available">Available</option>
-                <option value="Pending Adoption">Pending Adoption</option>
                 <option value="Adopted">Adopted</option>
-                <option value="In Treatment">In Treatment</option>
+                <option value="Reserved">Reserved</option>
               </select>
             </div>
           </div>
-          
-          <div className="form-group">
-            <label>Last Checkup</label>
-            <input
-              type="text"
-              name="lastCheckup"
-              value={formData.lastCheckup}
-              onChange={handleChange}
-              placeholder="E.g., 2 weeks ago"
-            />
-          </div>
-          
           <div className="form-row">
             <div className="form-group">
-              <label>Health Status</label>
-              <select
-                name="health"
-                value={formData.details.health}
-                onChange={handleChange}
-              >
-                {healthOptions.map(health => (
-                  <option key={health} value={health}>{health}</option>
-                ))}
-              </select>
+              <label>Price ($)</label>
+              <input
+                type="number"
+                name="price"
+                value={parseFloat(formData.price)}
+                onChange={(e) =>
+                  setFormData((p) => ({
+                    ...p,
+                    price: parseFloat(e.target.value),
+                  }))
+                }
+                placeholder="0"
+                min={0}
+                required
+              />
             </div>
-            
             <div className="form-group">
-              <label>Temperament</label>
+              <label>Gender</label>
               <select
-                name="temperament"
-                value={formData.details.temperament}
+                name="gender"
+                value={formData.adoptionStatus}
                 onChange={handleChange}
+                required
               >
-                {temperamentOptions.map(temp => (
-                  <option key={temp} value={temp}>{temp}</option>
-                ))}
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
               </select>
             </div>
           </div>
-          
-          <div className="form-group">
-            <label>Special Needs</label>
-            <input
-              type="text"
-              name="specialNeeds"
-              value={formData.details.specialNeeds}
-              onChange={handleChange}
-              placeholder="Any special requirements"
-            />
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Owner</label>
+              <select
+                name="ownerId"
+                value={formData.owner.name}
+                onChange={(e) =>
+                  setFormData((p) => ({
+                    ...p,
+                    ownerId: parseFloat(e.target.value.id),
+                    owner: {
+                      ownerId: parseFloat(e.target.value.id),
+                      ownerName: e.target.value.name,
+                    },
+                  }))
+                }
+              >
+                {users.map((user) => (
+                  <option key={user.id} value={user}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Enter description"
+                required
+              />
+            </div>
           </div>
-          
+
           <div className="modal-actions">
             <button type="button" className="cancel-btn" onClick={onClose}>
               Cancel
             </button>
             <button type="submit" className="save-btn">
               <PawPrint size={16} />
-              <span>Add Pet</span>
+              <span>{isEdit ? "Update" : "Submit"}</span>
             </button>
           </div>
         </form>
