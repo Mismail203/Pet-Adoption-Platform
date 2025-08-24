@@ -138,10 +138,10 @@ const Header = ({ toggleSidebar, pageTitle = "Dashboard", onLogout }) => {
                   <span>Settings</span>
                 </Link>
                 <hr className="dropdown-divider" />
-                <button className="dropdown-item logout" onClick={handleLogout}>
+                <Link to="/admin/logout" className="dropdown-item logout" >
                   <LogOut size={16} />
                   <span>Logout</span>
-                </button>
+                </Link>
               </div>
             </div>
           )}

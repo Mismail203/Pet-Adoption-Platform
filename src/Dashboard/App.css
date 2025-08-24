@@ -2,7 +2,7 @@
 
 
 /* Root layout */
-.dashboard-app {
+.dashboard-app-user {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
