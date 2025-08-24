@@ -4,8 +4,6 @@ import axios from "axios";
 import { gateway } from "../helper";
 
 const AddPet = ({ onClose, isEdit = false, pet }) => {
-  console.log("petid", pet.petId);
-
   const [formData, setFormData] = useState(
     isEdit
       ? pet
@@ -55,7 +53,6 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData", formData);
     const url = isEdit
       ? `${gateway}/editPet/${formData.petId}` // <-- make sure gateway has this mount!
       : `${gateway}/addPet`;
