@@ -3,14 +3,18 @@ import "./Pets.css";
 import axios from "axios";
 import { PetGridForTreatment } from "../Components/PetTreatmentCard";
 
-export default function MyPets() {
+export default function Treatment({ userData }) {
   const [pets, setPets] = useState([]);
   //   const [detailPet, setDetailPet] = useState();
 
   useEffect(() => {
     axios
       //   .get("https://petgatewayapi.onrender.com/getAllPets")
-      .get(`https://petadoptionwebapi-1.onrender.com/api/pet/by-owner/${5}`)
+      .get(
+        `https://petadoptionwebapi-1.onrender.com/api/pet/by-owner/${
+          userData.name === "Admin" ? null : userData.id
+        }`
+      )
       .then((response) => {
         setPets(response.data);
       })

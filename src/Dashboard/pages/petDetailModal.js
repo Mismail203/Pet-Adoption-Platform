@@ -43,15 +43,13 @@ export default function PetDetailsModal({
       (i) => (i - 1 + Math.max(imgs.length, 1)) % Math.max(imgs.length, 1)
     );
 
-const handleAdoptClick = () => {
-  if (!userData?.id || !userData?.email) {
-    alert("Please log in to adopt a pet");
-    return;
-  }
-  console.log("Adopting pet:", pet?.name); // log for debug
-  setShowPayment(true);
-};
-
+  const handleAdoptClick = () => {
+    if (!userData?.id || !userData?.email) {
+      alert("Please log in to adopt a pet");
+      return;
+    }
+    setShowPayment(true);
+  };
 
   const handlePaymentClose = () => {
     setShowPayment(false);
@@ -62,9 +60,9 @@ const handleAdoptClick = () => {
   const fmt = (n, cur = pet.currency || "USD") =>
     typeof n === "number"
       ? new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: cur,
-      }).format(n)
+          style: "currency",
+          currency: cur,
+        }).format(n)
       : n;
 
   const modal = (
@@ -174,10 +172,7 @@ const handleAdoptClick = () => {
 
               {/* Actions */}
               <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-                <button
-                  style={S.primaryBtn}
-                  onClick={handleAdoptClick}
-                >
+                <button style={S.primaryBtn} onClick={handleAdoptClick}>
                   Adopt
                 </button>
               </div>
