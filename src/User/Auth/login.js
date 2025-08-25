@@ -13,33 +13,38 @@ const LoginForm = ({ goRegister, goForgotPassword, onLoginSuccess }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
+// User/Auth/login.js
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMessage("");
 
-    try {
-      const response = await fetch(
-        "https://node-api-wlq1.onrender.com/api/users/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setForm({ email: "", password: "" });
-        onLoginSuccess(); // ✅ Directly switch to Dashboard
-      } else {
-        setMessage("❌ " + (data.message || data.error));
+  try {
+    const response = await fetch(
+      "https://node-api-wlq1.onrender.com/api/users/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       }
-    } catch (error) {
-      console.error(error);
-      setMessage("❌ Something went wrong. Check your internet connection.");
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setForm({ email: "", password: "" });
+      
+      console.log("Login successful - Email:", form.email);
+      
+      // Pass the email to onLoginSuccess - FIXED: pass the actual email
+      onLoginSuccess(form.email); // This was the main issue
+    } else {
+      setMessage("❌ " + (data.message || data.error));
     }
-  };
+  } catch (error) {
+    console.error(error);
+    setMessage("❌ Something went wrong. Check your internet connection.");
+  }
+};
 
   return (
     // <div className="cont">

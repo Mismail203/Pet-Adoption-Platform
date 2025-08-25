@@ -13,7 +13,8 @@ import Pets from "./pages/Pets";
 import Treatment from "./pages/Treatment";
 import Logout from "./pages/Logout";
 
-export default function DashboardApp() {
+const DashboardApp = ({ userData }) => {
+	 console.log("DashboardApp - User Data:", userData);
 	return (
 		<div className="dashboard-app">
 			<Header />
@@ -41,3 +42,4 @@ export default function DashboardApp() {
 		</div>
 	);
 }
+export default DashboardApp;
