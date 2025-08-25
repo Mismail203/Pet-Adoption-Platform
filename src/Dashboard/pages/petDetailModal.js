@@ -163,12 +163,6 @@ export default function PetDetailsModal({
                 >
                   Adopt
                 </button>
-                <button
-                  style={S.secondaryBtn}
-                  onClick={() => alert("Reserve flow here")}
-                >
-                  Reserve
-                </button>
               </div>
             </div>
           </div>

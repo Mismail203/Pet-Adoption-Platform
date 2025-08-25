@@ -29,47 +29,52 @@ function App() {
     if (location.pathname.startsWith("/app/logout")) {
       setPage("login");
     } else if (
-      location.pathname.startsWith("/app/dashboard") ||
-      location.pathname.startsWith("/app/pets") ||
-      location.pathname.startsWith("/app/treatment")
+      location.pathname.includes("/app/dashboard") ||
+      location.pathname.includes("/app/pets") ||
+      location.pathname.includes("/app/treatment")
     ) {
       setPage("dashboard");
-    } else if (location.pathname.startsWith("/app/login")) {
+    } else if (location.pathname.includes("/app/login")) {
       setPage("login");
     } else if (location.pathname.startsWith("/app/register")) {
       setPage("register");
     } else if (location.pathname.startsWith("/app/forgot-password")) {
       setPage("forgot");
     }
-  }, [location.pathname]);
+  }, [page]);
 
   // Function to fetch user ID by email
   const fetchUserIdByEmail = async (email) => {
     try {
       setIsLoading(true);
       console.log("Fetching user ID for email:", email);
-      
-      const response = await fetch("https://node-api-wlq1.onrender.com/api/users/get-all-users");
+
+      const response = await fetch(
+        "https://node-api-wlq1.onrender.com/api/users/get-all-users"
+      );
       const data = await response.json();
-      
+
       console.log("API Response:", data);
-      
+
       if (response.ok) {
         // Find user with matching email
-        const user = data.find(user => user.email === email.toLowerCase());
-        
+        const user = data.find((user) => user.email === email.toLowerCase());
+
         if (user) {
           console.log("User found:", user);
           const userData = { id: user._id, email: user.email };
-          
+
           // Store in localStorage
           localStorage.setItem("userData", JSON.stringify(userData));
           setUserData(userData);
-          
+
           return userData;
         } else {
           console.error("User not found with email:", email);
-          console.log("Available emails:", data.map(u => u.email));
+          console.log(
+            "Available emails:",
+            data.map((u) => u.email)
+          );
           return null;
         }
       } else {
@@ -87,15 +92,15 @@ function App() {
   // Handle login success
   const handleLoginSuccess = async (email) => {
     console.log("Login successful, fetching user data for:", email);
-    
+
     if (!email) {
       console.error("Email is undefined!");
       alert("Login error: Email not received");
       return;
     }
-    
+
     const userData = await fetchUserIdByEmail(email);
-    
+
     if (userData) {
       // Update URL and show dashboard
       navigate("/app/dashboard");
@@ -126,25 +131,22 @@ function App() {
         {isLoading && <div className="loading">Loading user data...</div>}
 
         {page === "register" && (
-          <RegisterForm 
+          <RegisterForm
             goLogin={() => {
               setPage("login");
               navigate("/app/login");
-            }} 
+            }}
           />
         )}
 
         {page === "login" && (
           <LoginForm
-            goRegister={() => {
-              setPage("register");
-              navigate("/app/register");
+            goRegister={() => setPage("register")}
+            goForgotPassword={() => setPage("forgot")}
+            onLoginSuccess={() => {
+              setPage("dashboard");
+              // navigate("/app/dashboard");
             }}
-            goForgotPassword={() => {
-              setPage("forgot");
-              navigate("/app/forgot-password");
-            }}
-            onLoginSuccess={(email) => handleLoginSuccess(email)}
           />
         )}
 
@@ -178,9 +180,7 @@ function App() {
           />
         )}
 
-        {page === "dashboard" && (
-          <DashboardApp userData={userData} />
-        )}
+        {page === "dashboard" && <DashboardApp />}
       </div>
     </div>
   );

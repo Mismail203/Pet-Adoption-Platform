@@ -16,7 +16,7 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
           description: "",
           adoptionStatus: "",
           ownerId: null,
-          owner: { ownerId: null, name: null },
+          // owner: { ownerId: null, name: null },
           gender: "",
         }
   );
@@ -60,7 +60,7 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
       : `${gateway}/addPet`;
 
     // If your backend expects PUT for edits, change method to "put"
-    const method = isEdit ? "post" : "post";
+    const method = isEdit ? "put" : "post";
 
     try {
       const res = await axios({
@@ -72,6 +72,7 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
       });
       console.log("✅ Success:", res.data);
       alert(isEdit ? "Pet updated successfully!" : "Pet added successfully!");
+      onClose();
     } catch (err) {
       console.error("❌ Request failed:", err?.response?.data || err.message);
       alert(
@@ -223,12 +224,16 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
                 name="ownerId"
                 value={formData?.ownerId ?? ""} // control by id, not name
                 onChange={(e) => {
+                  console.log("E");
+
                   const id = Number(e.target.value); // value is a string -> convert
-                  const u = users.find((x) => x.id === id);
+                  const u = users.find((x) => x._id === id);
                   setFormData((p) => ({
                     ...p,
                     ownerId: id,
-                    owner: u ? { ownerId: u.id, ownerName: u.name } : undefined,
+                    owner: u
+                      ? { ownerId: u._id, ownerName: u.name }
+                      : undefined,
                   }));
                 }}
               >
@@ -237,7 +242,7 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
                 </option>{" "}
                 {/* placeholder */}
                 {users.map((user) => (
-                  <option key={user.id} value={user.id}>
+                  <option key={user._id} value={user._id}>
                     {user.name}
                   </option>
                 ))}

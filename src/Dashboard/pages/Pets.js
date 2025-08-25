@@ -20,10 +20,13 @@ export default function Pets() {
         console.error("Axios error:", error);
       });
   }, []);
+
+  const filteredPet = pets.filter((pet) => pet.adoptionStatus === "Available");
+
   return (
     <div className="pets-page">
       <PetGrid
-        pets={pets}
+        pets={filteredPet ?? []}
         onCardClick={(p) => {
           setDetailPet(p);
           setOpenModal(true);
