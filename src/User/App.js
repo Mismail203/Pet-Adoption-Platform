@@ -23,11 +23,20 @@ function App() {
       const parsedData = JSON.parse(storedUserData);
       setUserData(parsedData);
       console.log("User data loaded from storage:", parsedData);
+      
+      // If we have user data and we're on a dashboard route, show dashboard
+      if (location.pathname.includes("/app/dashboard") || 
+          location.pathname.includes("/app/pets") || 
+          location.pathname.includes("/app/treatment")) {
+        setPage("dashboard");
+      }
     }
 
     // Handle routing based on URL path
     if (location.pathname.startsWith("/app/logout")) {
       setPage("login");
+      localStorage.removeItem("userData");
+      setUserData(null);
     } else if (
       location.pathname.includes("/app/dashboard") ||
       location.pathname.includes("/app/pets") ||
@@ -41,7 +50,7 @@ function App() {
     } else if (location.pathname.startsWith("/app/forgot-password")) {
       setPage("forgot");
     }
-  }, [page]);
+  }, [location.pathname]);
 
   // Function to fetch user ID by email
   const fetchUserIdByEmail = async (email) => {
@@ -141,12 +150,15 @@ function App() {
 
         {page === "login" && (
           <LoginForm
-            goRegister={() => setPage("register")}
-            goForgotPassword={() => setPage("forgot")}
-            onLoginSuccess={() => {
-              setPage("dashboard");
-              // navigate("/app/dashboard");
+            goRegister={() => {
+              setPage("register");
+              navigate("/app/register");
             }}
+            goForgotPassword={() => {
+              setPage("forgot");
+              navigate("/app/forgot-password");
+            }}
+            onLoginSuccess={handleLoginSuccess}
           />
         )}
 
@@ -180,7 +192,9 @@ function App() {
           />
         )}
 
-        {page === "dashboard" && <DashboardApp />}
+        {page === "dashboard" && (
+          <DashboardApp userData={userData} />
+        )}
       </div>
     </div>
   );

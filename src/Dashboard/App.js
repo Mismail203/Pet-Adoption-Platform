@@ -18,18 +18,20 @@ import Pets from "./pages/Pets";
 import Treatment from "./pages/Treatment";
 import Logout from "./pages/Logout";
 
-export default function DashboardApp() {
+export default function DashboardApp({ userData }) {
+  console.log("DashboardApp - User Data:", userData);
+
   return (
     <div className="dashboard-app">
-      <Header />
+      <Header userData={userData} />
       <div className="dashboard-body">
         <Sidebar />
         <main className="dashboard-content">
           <Routes>
             <Route path="/" element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard" element={<DashboardHome />} />
-            <Route path="pets" element={<Pets />} />
-            <Route path="treatment" element={<Treatment />} />
+            <Route path="dashboard" element={<DashboardHome userData={userData} />} />
+            <Route path="pets" element={<Pets userData={userData} />} />
+            <Route path="treatment" element={<Treatment userData={userData} />} />
             <Route path="logout" element={<Logout />} />
             <Route path="*" element={<Navigate to="dashboard" replace />} />
           </Routes>
