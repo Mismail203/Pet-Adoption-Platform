@@ -14,14 +14,16 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
           price: 0,
           age: 0,
           description: "",
-          adoptionStatus: "Available",
+          adoptionStatus: "",
           ownerId: null,
-          gender: "Male",
+          owner: { ownerId: null, name: null },
+          gender: "",
         }
   );
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  console.log("formdata", formData);
 
   useEffect(() => {
     fetchAllUsers();
@@ -110,10 +112,15 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
               <label>Type</label>
               <select
                 name="specie"
-                value={formData.specie}
-                onChange={handleChange}
+                value={formData?.specie ?? ""} // keep empty until user picks
+                onChange={(e) =>
+                  setFormData((p) => ({ ...p, specie: e.target.value }))
+                }
                 required
               >
+                <option value="" disabled>
+                  Select type…
+                </option>
                 {petTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -159,10 +166,13 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
               <label>Status</label>
               <select
                 name="adoptionStatus"
-                value={formData.adoptionStatus}
+                value={formData?.adoptionStatus ?? ""}
                 onChange={handleChange}
                 required
               >
+                <option value="" disabled>
+                  Select status…
+                </option>
                 <option value="Available">Available</option>
                 <option value="Adopted">Adopted</option>
                 <option value="Reserved">Reserved</option>
@@ -191,10 +201,15 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
               <label>Gender</label>
               <select
                 name="gender"
-                value={formData.adoptionStatus}
-                onChange={handleChange}
+                value={formData?.gender ?? ""} // control by gender, not adoptionStatus
+                onChange={(e) =>
+                  setFormData((p) => ({ ...p, gender: e.target.value }))
+                }
                 required
               >
+                <option value="" disabled>
+                  Select gender…
+                </option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
@@ -206,25 +221,29 @@ const AddPet = ({ onClose, isEdit = false, pet }) => {
               <label>Owner</label>
               <select
                 name="ownerId"
-                value={formData.owner.name}
-                onChange={(e) =>
+                value={formData?.ownerId ?? ""} // control by id, not name
+                onChange={(e) => {
+                  const id = Number(e.target.value); // value is a string -> convert
+                  const u = users.find((x) => x.id === id);
                   setFormData((p) => ({
                     ...p,
-                    ownerId: parseFloat(e.target.value.id),
-                    owner: {
-                      ownerId: parseFloat(e.target.value.id),
-                      ownerName: e.target.value.name,
-                    },
-                  }))
-                }
+                    ownerId: id,
+                    owner: u ? { ownerId: u.id, ownerName: u.name } : undefined,
+                  }));
+                }}
               >
+                <option value="" disabled>
+                  Select owner...
+                </option>{" "}
+                {/* placeholder */}
                 {users.map((user) => (
-                  <option key={user.id} value={user}>
+                  <option key={user.id} value={user.id}>
                     {user.name}
                   </option>
                 ))}
               </select>
             </div>
+
             <div className="form-group">
               <label>Description</label>
               <input
