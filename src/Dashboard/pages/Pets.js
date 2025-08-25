@@ -4,14 +4,13 @@ import axios from "axios";
 import { PetGrid } from "../Components/PetCards";
 import PetDetailsModal from "./petDetailModal";
 
-export default function Pets() {
+export default function Pets({ userData }) { // <- destructure props
   const [pets, setPets] = useState([]);
   const [detailPet, setDetailPet] = useState();
   const [openModal, setOpenModal] = useState();
 
   useEffect(() => {
     axios
-      //   .get("https://petgatewayapi.onrender.com/getAllPets")
       .get("https://petadoptionwebapi-1.onrender.com/api/pet/all")
       .then((response) => {
         setPets(response.data);
@@ -38,6 +37,7 @@ export default function Pets() {
             setDetailPet({});
             setOpenModal(false);
           }}
+          userData={userData} // now userData is correctly passed
           open={openModal}
           pet={detailPet}
         />
@@ -45,3 +45,4 @@ export default function Pets() {
     </div>
   );
 }
+

@@ -1,14 +1,17 @@
 // PetDetailsModal.jsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import PaymentModal from "./PaymentModal"; // We'll create this next
 
 export default function PetDetailsModal({
   open,
-  pet, // { name, description, gender, breed, type, price, currency?, images: string[] }
+  pet,
+  userData, // Add userData prop
   onClose,
 }) {
   const backdropRef = useRef(null);
   const [index, setIndex] = useState(0);
+  const [showPayment, setShowPayment] = useState(false);
 
   useEffect(() => {
     if (open) setIndex(0);
@@ -40,14 +43,28 @@ export default function PetDetailsModal({
       (i) => (i - 1 + Math.max(imgs.length, 1)) % Math.max(imgs.length, 1)
     );
 
+const handleAdoptClick = () => {
+  if (!userData?.id || !userData?.email) {
+    alert("Please log in to adopt a pet");
+    return;
+  }
+  console.log("Adopting pet:", pet?.name); // log for debug
+  setShowPayment(true);
+};
+
+
+  const handlePaymentClose = () => {
+    setShowPayment(false);
+  };
+
   if (!open || !pet) return null;
 
   const fmt = (n, cur = pet.currency || "USD") =>
     typeof n === "number"
       ? new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: cur,
-        }).format(n)
+        style: "currency",
+        currency: cur,
+      }).format(n)
       : n;
 
   const modal = (
@@ -134,7 +151,7 @@ export default function PetDetailsModal({
           <div style={S.right}>
             <div style={{ display: "grid", gap: 12 }}>
               <div>
-                <h2 style={{ margin: 0, fontSize: 22 }}>{pet.name}</h2>
+                <h2 style={{ margin: 0, fontSize: 22 }}>{pet.petName}</h2>
                 {pet.price != null && (
                   <div style={{ marginTop: 4, fontWeight: 700 }}>
                     {fmt(pet.price)}
@@ -155,11 +172,11 @@ export default function PetDetailsModal({
                 )}
               </div>
 
-              {/* Actions (optional) */}
+              {/* Actions */}
               <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
                 <button
                   style={S.primaryBtn}
-                  onClick={() => alert("Adopt flow here")}
+                  onClick={handleAdoptClick}
                 >
                   Adopt
                 </button>
@@ -168,6 +185,16 @@ export default function PetDetailsModal({
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPayment && (
+        <PaymentModal
+          open={showPayment}
+          onClose={handlePaymentClose}
+          userData={userData}
+          pet={pet}
+        />
+      )}
     </div>
   );
 
