@@ -3,18 +3,20 @@ import { X, PawPrint } from "lucide-react";
 import axios from "axios";
 import { gateway } from "../helper";
 
-const DeletePet = ({ pet, onClose, onConfirm }) => {
-  async function confirmDelete() {
+const ReturnPet = ({ pet, onClose, onConfirm }) => {
+  async function confirmReturn() {
     if (!pet.petId) throw new Error("petId is required");
     try {
-      const res = await axios.delete(`${gateway}/deletePet/${pet.petId}`);
-      console.log("✅ Pet deleted:", res.data);
-      alert("Pet deleted successfully!");
+      await axios.post(`${gateway}/ReturnPet`, null, {
+        params: { petId: pet.petId },
+      });
+
+      alert("Pet returned successfully!");
       onClose();
     } catch (err) {
-      console.error("❌ Delete failed:", err?.response?.data || err.message);
+      console.error("❌ return failed:", err?.response?.data || err.message);
       alert(
-        `Failed to delete pet${
+        `Failed to return pet${
           err?.response?.status ? ` (HTTP ${err.response.status})` : ""
         }`
       );
@@ -24,7 +26,7 @@ const DeletePet = ({ pet, onClose, onConfirm }) => {
     <div className="modal-overlay">
       <div className="modal-container delete-modal">
         <div className="modal-header">
-          <h2>Delete Pet</h2>
+          <h2>Return Pet</h2>
           <button className="close-btn" onClick={onClose}>
             <X size={20} />
           </button>
@@ -44,11 +46,11 @@ const DeletePet = ({ pet, onClose, onConfirm }) => {
           </div>
 
           <p className="warning-message">
-            Are you sure you want to permanently delete {pet.petName}
+            Are you sure you want to return {pet.petName}
           </p>
           <p className="warning-note">
-            This action cannot be undone and will remove all information about
-            this pet.
+            This action cannot be undone and will remove you as owner of this
+            pet.
           </p>
         </div>
 
@@ -56,9 +58,9 @@ const DeletePet = ({ pet, onClose, onConfirm }) => {
           <button type="button" className="cancel-btn" onClick={onClose}>
             Cancel
           </button>
-          <button type="button" className="delete-btn" onClick={confirmDelete}>
+          <button type="button" className="delete-btn" onClick={confirmReturn}>
             <PawPrint size={16} />
-            <span>Delete Permanently</span>
+            <span>Return</span>
           </button>
         </div>
       </div>
@@ -66,4 +68,4 @@ const DeletePet = ({ pet, onClose, onConfirm }) => {
   );
 };
 
-export default DeletePet;
+export default ReturnPet;

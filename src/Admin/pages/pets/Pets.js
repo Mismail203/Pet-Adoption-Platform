@@ -8,6 +8,7 @@ import {
   PawPrint,
   ChevronDown,
   ChevronRight,
+  Undo2,
 } from "lucide-react";
 import AddPet from "./AddPet";
 import EditPet from "./EditPet";
@@ -16,12 +17,14 @@ import "./Pets.css";
 import "./PetsModals.css";
 import axios from "axios";
 import AddImageModal from "./addImages";
+import ReturnPet from "./ReturnPet";
 
 const Pets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedPet, setExpandedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
   const [deletingPet, setDeletingPet] = useState(null);
+  const [returningPet, setReturningPet] = useState(null);
   const [currentPet, setCurrentPet] = useState(null);
   const [addingPet, setAddingPet] = useState(false);
   const [pets, setPets] = useState([]);
@@ -56,6 +59,10 @@ const Pets = () => {
   const handleDeleteConfirm = () => {
     setPets(pets.filter((pet) => pet.id !== deletingPet.id));
     setDeletingPet(null);
+  };
+  const handleReturnConfirm = () => {
+    setPets(pets.filter((pet) => pet.id !== returningPet.id));
+    setReturningPet(null);
   };
 
   const filteredPets =
@@ -169,6 +176,14 @@ const Pets = () => {
                         <Trash2 size={16} />
                         {/* <span>Delete</span> */}
                       </button>
+                      <button
+                        className="u-turn-btn"
+                        onClick={() => setReturningPet(pet)} // or your return handler
+                        aria-label="Return"
+                        title="Return"
+                      >
+                        <Undo2 size={16} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -231,6 +246,13 @@ const Pets = () => {
           pet={deletingPet}
           onClose={() => setDeletingPet(null)}
           onConfirm={handleDeleteConfirm}
+        />
+      )}
+      {returningPet && (
+        <ReturnPet
+          pet={returningPet}
+          onClose={() => setReturningPet(null)}
+          onConfirm={handleReturnConfirm}
         />
       )}
       {addImagesModal && (
