@@ -1,4 +1,13 @@
 /* Root layout */
+
+.dashboard-app-user {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background: #0b1020;
+	color: #e6eaf2;
+	font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
 .dashboard-app {
   display: flex;
   flex-direction: column;
